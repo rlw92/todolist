@@ -7,10 +7,6 @@ const quests = [{title:"Wash Hair",done:false},
 //factory function that  creates quests
 function quest(title,done){
     this.title = title
-    this.dateSet = dateSet
-    this.dateDue = dateDue
-    if(che.checked === true){r = "done"}
-  else if(che.checked === false){r = "not done"}
     this.done = done
   }
 
@@ -42,8 +38,6 @@ const display = () => {
 
 const check = (t) => {
   let tt = t.target.value;
-  console.log(tt);
-  console.log(quests[tt].done);
   quests[tt].done = true;
   t.target.style.backgroundColor = "green";
   displayQuests.display();
@@ -56,3 +50,12 @@ const check = (t) => {
 
   
 
+const addQuests = () =>{
+  let c = prompt("Enter your quest young knight!");
+  let title = c;
+  let done = false;
+  let q = new quest(title,done);
+  quests.push(q);
+  displayQuests.display();
+
+}
