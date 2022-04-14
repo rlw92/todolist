@@ -1,2 +1,2 @@
 # todolist
-The to do list or the Odin Project.
+The to do list for the Odin Project.
