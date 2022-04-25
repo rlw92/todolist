@@ -8,7 +8,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Main Quest</h1>
+    <div class="navbar">
+        <a id="mainb">Main Quest</a>
+        <div class="dropdown">
+          <button class="dropbtn">Side Quests
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content" id="dropcont">
+            
+          </div>
+        </div>
+      </div>
+
+    <h1 id="header">Main Quest</h1>
 
     <div class="activeQuestContainer">
         <h2>Active Tasks</h2>
@@ -25,7 +37,9 @@
             
         </div>
     </div>
-
+    <br>
+<button onclick="cleararray()">Clear All Tasks</button>
+<div id="demo"></div>
 
 </body>
 <script src="script.js"></script>
