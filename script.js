@@ -2,11 +2,6 @@
 const actdiv = document.querySelector(".activeQuestContent")
 const compldiv = document.querySelector(".completeQuestContent")
 
-//needs changing to access local  storage
-/*let quests = [{title:"Wash Hair",done:false},
-                {title:"Brush hair",done:false}
-                                ];   */
-
 //*LS* this is the code to build the local storage
 //*LS* below calls the tasks storage or if empty an empty array
 let quests = JSON.parse(localStorage.getItem("tasks") || "[]");
@@ -45,7 +40,7 @@ const display = () => {
   }
 }
 
-//changes task to done
+//changes task to done and updates local storage
 const check = (t) => {
   let tt = t.target.value;
   quests[tt].done = true;
@@ -72,46 +67,3 @@ const addQuests = () =>{
   localstore.storearray();
 
 }
-
-//storing quests array into local storage
-/* old code
-const localstore = (() =>{
-
-const storearray = ()=>{
-for(i=0;i<quests.length;i++){
-  localStorage.setItem('Questtitle'+ i,quests[i].title);
-}
-}
-
-const printarray = () => {
-  for(i=0;i<quests.length;i++){
-    console.log(localStorage.getItem('Questtitle'+ i));
-  }
-}
-
-const setarray = () =>{
-  for(i=0;i<quests.length;i++){
-    let quests = [{title: localStorage.getItem('Questtitle'+ i),done:false}];
-    return quests;
-   };
-  
-
-}
-
-return{storearray,printarray,setarray}
-})();
-localstore.setarray();
-*/
-
-
-
-
-//testing code to see how local storage works
-document.getElementById("colorch").addEventListener('click',()=>{change()})
-function change(){
-let bgc =  document.getElementById("color").value;
-document.body.style.backgroundColor = bgc;
-localStorage.setItem('backgroundcolor',bgc)}
-
-let loccol = localStorage.getItem('backgroundcolor');
-document.body.style.backgroundColor = loccol;
