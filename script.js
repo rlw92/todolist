@@ -3,13 +3,13 @@ const actdiv = document.querySelector(".activeQuestContent")
 const compldiv = document.querySelector(".completeQuestContent")
 
 //needs changing to access local  storage
-let quests = [{title:"Wash Hair",done:false},
-                {title:"Brush Teeth",done:false}
-                                ];   
+/*let quests = [{title:"Wash Hair",done:false},
+                {title:"Brush hair",done:false}
+                                ];   */
 
 //*LS* this is the code to build the local storage
 //*LS* below calls the tasks storage or if empty an empty array
-let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+let quests = JSON.parse(localStorage.getItem("tasks") || "[]");
 
 
 //factory function that  creates quests
@@ -45,9 +45,11 @@ const display = () => {
   }
 }
 
+//changes task to done
 const check = (t) => {
   let tt = t.target.value;
   quests[tt].done = true;
+  localStorage.setItem("tasks", JSON.stringify(quests));
   t.target.style.backgroundColor = "green";
   displayQuests.display();
 }
@@ -65,12 +67,14 @@ const addQuests = () =>{
   let done = false;
   let q = new quest(title,done);
   quests.push(q);
+  localStorage.setItem("tasks", JSON.stringify(quests));
   displayQuests.display();
   localstore.storearray();
 
 }
 
 //storing quests array into local storage
+/* old code
 const localstore = (() =>{
 
 const storearray = ()=>{
@@ -97,7 +101,7 @@ const setarray = () =>{
 return{storearray,printarray,setarray}
 })();
 localstore.setarray();
-
+*/
 
 
 
