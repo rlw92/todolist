@@ -1,15 +1,8 @@
-
 const actdiv = document.querySelector(".activeQuestContent")
 const compldiv = document.querySelector(".completeQuestContent")
 
 //needs changing to access local  storage
-let quests = [{title:"Wash Hair",done:false},
-                {title:"Brush Teeth",done:false}
-                                ];   
-
-//*LS* this is the code to build the local storage
-//*LS* below calls the tasks storage or if empty an empty array
-let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+let quests;
 
 
 //factory function that  creates quests
@@ -111,3 +104,11 @@ localStorage.setItem('backgroundcolor',bgc)}
 
 let loccol = localStorage.getItem('backgroundcolor');
 document.body.style.backgroundColor = loccol;
+
+
+//test code for json to get array of objects into localstorage have to make the html to show its
+const obj = {name: "John", age: 30, city: "New York"};
+const myJSON = JSON.stringify(obj);
+document.getElementById("demo").innerHTML = myJSON;
+const objjs = JSON.parse('{"name":"John", "age":30, "city":"New York"}');
+document.getElementById("demo1").innerHTML = objjs.city;
