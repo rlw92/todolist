@@ -1,3 +1,4 @@
 label{color:red;}
-.activeQuestContent div{display:flex;gap:200px;}
-.completeQuestContent div{display:flex;margin:2px;}
+.activeQuestContent div{display:flex;gap:20px;justify-content: center;}
+.completeQuestContent div{display:flex;margin:2px;justify-content: center;}
+*{text-align:center;}
