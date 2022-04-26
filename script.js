@@ -91,7 +91,6 @@ function cleararray(){
 
 
 //*SQ below is the module for all the sidequest content
-
 const sideQuestModule =(() => {
 
 //below code is to process sidequests in the dropdown list
@@ -99,14 +98,14 @@ const dropdownside = () =>{
   for(i=0;i<sidequests.length;i++){
     let a = document.createElement("a");
     a.textContent = sidequests[i].name;
-    a.value = i;
-    a.addEventListener('click',sideQuestModule.sideques);
+    a.dataset.projectnumber = i;
+    a.addEventListener('click',sideQuestModule.display);
     sidediv.appendChild(a);
   }}
 
   //generate sidequest content
-const sideques = (t) => {
-  let tt = t.target.value;
+const display = (t) => {
+  let tt = t.target.dataset.projectnumber;
   document.querySelector("#header").textContent = sidequests[tt].name;
   //Below i am tryin to process the list for each of the tasks of the specific side project
   actdiv.textContent= "";
@@ -122,17 +121,35 @@ const sideques = (t) => {
   if(sidequests[tt].tasks[i].done === false){
    let input = document.createElement("div");
    let button = document.createElement("button");
-   //button.addEventListener('click',displayQuests.check);
    button.textContent = "Done";
    button.value = i;
+   button.dataset.projectnumber = tt;
+   button.addEventListener('click',sideQuestModule.check);
+   
    input.appendChild(button);
    div.appendChild(input);
    actdiv.appendChild(div)}
-   else if(sidequests[tt].tasks[i].done){compldiv.appendChild(div);}
+   else if(sidequests[tt].tasks[i].done === true){compldiv.appendChild(div);}
+  
   }
 }
 
-  return{dropdownside,sideques}
+//changes side task to done and updates local storage
+const check = (t) => {
+  let tt = t.target.dataset.projectnumber;
+  console.log(tt);
+  let pp = t.target.value
+  console.log(pp)
+  sidequests[tt].tasks[pp].done = true;
+  //localStorage.setItem("taskarray", JSON.stringify(quests));
+  t.target.style.backgroundColor = "green";
+  sideQuestModule.display(t);
+  
+}
+
+
+
+  return{dropdownside,display,check}
 
 })();
 sideQuestModule.dropdownside();
