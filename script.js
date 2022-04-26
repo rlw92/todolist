@@ -17,9 +17,11 @@ let quests = JSON.parse(localStorage.getItem("taskarray") || "[]");
 
 //*SQ* this is the code to build the side quest implementation
 //*SQ* below is the array for the side quests
-let sidequests = [{name:"Guitar",tasks:[{title:'Learn Hotel California',done:false},{title:'Learn riff2',done:false}]},
+/*let sidequests = [{name:"Guitar",tasks:[{title:'Learn Hotel California',done:false},{title:'Learn riff2',done:false}]},
                   {name:"Piano",tasks:[{title:'Learn Still dre',done:false},{title:"Learn fur elise",done:true}]}
-];
+];*/
+//*SLQ* local storage for sidequests
+let sidequests = JSON.parse(localStorage.getItem("sidequesttaskarray") || "[]");
 
 //factory function that  creates quests
 function quest(title,done){
@@ -178,7 +180,7 @@ const check = (t) => {
   let pp = t.target.value
   console.log(pp)
   sidequests[tt].tasks[pp].done = true;
-  //localStorage.setItem("taskarray", JSON.stringify(quests));
+  localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
   t.target.style.backgroundColor = "green";
   sideQuestModule.display(t);
   
@@ -192,6 +194,7 @@ const addproject  = () =>{
   let q = new sidequestfactory(name,tasks);
   sidequests.push(q);
     for (i=0;i<sidequests.length;i++){sidediv.removeChild(sidediv.firstElementChild);}
+    localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
   sideQuestModule.dropdownside();
 
 }
@@ -206,7 +209,7 @@ const addQuests = (t) =>{
   let q = new quest(title,done);
 
   sidequests[tt].tasks.push(q);
-  //localStorage.setItem("taskarray", JSON.stringify(quests));
+  localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
   sideQuestModule.display(t);
   
 }
@@ -217,7 +220,7 @@ function cleararray(t){
   actdiv.textContent= "";
   compldiv.textContent="";
   sidequests[tt].tasks = [];
-  //localStorage.setItem("taskarray", JSON.stringify(quests));
+  localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
 }
 
 
