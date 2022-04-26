@@ -27,6 +27,12 @@ function quest(title,done){
     this.done = done
   }
 
+//factory function that creates sidequests
+function sidequestfactory(name,tasks){
+  this.name = name
+  this.tasks = tasks
+}
+
 //a function that loops through the quests placing them in active or done
 const displayQuests =(()=> {
 
@@ -109,7 +115,16 @@ const dropdownside = () =>{
     a.dataset.projectnumber = i;
     a.addEventListener('click',sideQuestModule.display);
     sidediv.appendChild(a);
-  }}
+    
+  }
+  let aa = document.createElement("a");
+  aa.textContent = "Add Side Quest";
+  aa.style = "background-color:yellow";
+  aa.addEventListener('mouseover',()=>{aa.style.backgroundColor = "green"});
+  aa.addEventListener('mouseleave',()=>{aa.style.backgroundColor = "yellow"});
+  aa.addEventListener('click',sideQuestModule.addproject);
+  sidediv.appendChild(aa);
+}
 
   //generate sidequest content
 const display = (t) => {
@@ -169,6 +184,18 @@ const check = (t) => {
   
 }
 
+//adding sidequests to sidequests
+const addproject  = () =>{
+  let c = prompt("Enter the name of your side quest");
+  let name = c;
+  let tasks = [];
+  let q = new sidequestfactory(name,tasks);
+  sidequests.push(q);
+    for (i=0;i<sidequests.length;i++){sidediv.removeChild(sidediv.firstElementChild);}
+  sideQuestModule.dropdownside();
+
+}
+
 //adding quests into  array using factory function
 const addQuests = (t) =>{
   let c = prompt("Enter your quest young knight!");
@@ -195,7 +222,7 @@ function cleararray(t){
 
 
 
-  return{dropdownside,display,check,addQuests,cleararray}
+  return{dropdownside,display,check,addQuests,cleararray,addproject}
 
 })();
 sideQuestModule.dropdownside();
