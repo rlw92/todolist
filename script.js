@@ -5,14 +5,20 @@ const compldiv = document.querySelector(".completeQuestContent")
 //*SQ* below is accessing the dropdown content
 const sidediv = document.querySelector("#dropcont")
 
+//access the add quest button
+let add = document.getElementById("add");
+
+//access the clear button
+let clearbutton = document.getElementById("clearb");
+
 //*LS* this is the code to build the local storage
 //*LS* below calls the taskarray storage or if empty an empty array
 let quests = JSON.parse(localStorage.getItem("taskarray") || "[]");
 
 //*SQ* this is the code to build the side quest implementation
 //*SQ* below is the array for the side quests
-let sidequests = [{name:"Guitar",tasks:[{name:'Learn Hotel California',done:false},{name:'Learn riff2',done:false}]},
-                  {name:"Piano",tasks:[{name:'Learn Still dre',done:false},{name:"Learn fur elise",done:true}]}
+let sidequests = [{name:"Guitar",tasks:[{title:'Learn Hotel California',done:false},{title:'Learn riff2',done:false}]},
+                  {name:"Piano",tasks:[{title:'Learn Still dre',done:false},{title:"Learn fur elise",done:true}]}
 ];
 
 //factory function that  creates quests
@@ -24,7 +30,9 @@ function quest(title,done){
 //a function that loops through the quests placing them in active or done
 const displayQuests =(()=> {
 
-const display = () => {
+const display = () => {  
+  add.addEventListener('click',displayQuests.addQuests)
+  clearbutton.addEventListener('click',displayQuests.cleararray)
   document.querySelector("#header").textContent = "Main Quest"
     actdiv.textContent= "";
   compldiv.textContent="";
@@ -58,13 +66,6 @@ const check = (t) => {
   displayQuests.display();
 }
 
-
-  return{display,check}
-
-})();
-  displayQuests.display();
-
-  
 //adding quests into  array using factory function
 const addQuests = () =>{
   let c = prompt("Enter your quest young knight!");
@@ -85,6 +86,13 @@ function cleararray(){
   quests = [];
   localStorage.setItem("taskarray", JSON.stringify(quests));
 }
+  return{display,check,addQuests,cleararray}
+
+})();
+  displayQuests.display();
+
+  
+
 
 
 
@@ -106,15 +114,29 @@ const dropdownside = () =>{
   //generate sidequest content
 const display = (t) => {
   let tt = t.target.dataset.projectnumber;
+
+
+  
+  add.dataset.projectnumber = tt;
+  add.removeEventListener('click',displayQuests.addQuests);
+  add.addEventListener('click',sideQuestModule.addQuests);
+
+  clearbutton.dataset.projectnumber = tt;
+  clearbutton.removeEventListener('click',displayQuests.cleararray);
+  clearbutton.addEventListener('click', sideQuestModule.cleararray);
+
+  
+  
   document.querySelector("#header").textContent = sidequests[tt].name;
   //Below i am tryin to process the list for each of the tasks of the specific side project
   actdiv.textContent= "";
   compldiv.textContent="";
+
   for(i=0;i<sidequests[tt].tasks.length;i++){
    let div = document.createElement("div");
 
    let label = document.createElement("label")
-   label.textContent = sidequests[tt].tasks[i].name;
+   label.textContent = sidequests[tt].tasks[i].title;
    label.setAttribute("id","label"+i)
    div.appendChild(label);
       
@@ -147,13 +169,39 @@ const check = (t) => {
   
 }
 
+//adding quests into  array using factory function
+const addQuests = (t) =>{
+  let c = prompt("Enter your quest young knight!");
+  let title = c;
+  let done = false;
+  let tt = t.target.dataset.projectnumber;
+  console.log(tt);
+  let q = new quest(title,done);
+
+  sidequests[tt].tasks.push(q);
+  //localStorage.setItem("taskarray", JSON.stringify(quests));
+  sideQuestModule.display(t);
+  
+}
+
+//clears the tasks without using the dreaded local storage clear
+function cleararray(t){
+  let tt = t.target.dataset.projectnumber;
+  actdiv.textContent= "";
+  compldiv.textContent="";
+  sidequests[tt].tasks = [];
+  //localStorage.setItem("taskarray", JSON.stringify(quests));
+}
 
 
-  return{dropdownside,display,check}
+
+  return{dropdownside,display,check,addQuests,cleararray}
 
 })();
 sideQuestModule.dropdownside();
 
 
 //Below is accessing the main quest button
-document.getElementById("mainb").addEventListener('click',displayQuests.display);
+document.getElementById("mainb").addEventListener('click',()=>{
+  add.removeEventListener('click',sideQuestModule.addQuests);
+   displayQuests.display()})
