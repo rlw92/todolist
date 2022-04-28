@@ -17,9 +17,6 @@ let quests = JSON.parse(localStorage.getItem("taskarray") || "[]");
 
 //*SQ* this is the code to build the side quest implementation
 //*SQ* below is the array for the side quests
-/*let sidequests = [{name:"Guitar",tasks:[{title:'Learn Hotel California',done:false},{title:'Learn riff2',done:false}]},
-                  {name:"Piano",tasks:[{title:'Learn Still dre',done:false},{title:"Learn fur elise",done:true}]}
-];*/
 //*SLQ* local storage for sidequests
 let sidequests = JSON.parse(localStorage.getItem("sidequesttaskarray") || "[]");
 
@@ -35,7 +32,25 @@ function sidequestfactory(name,tasks){
   this.tasks = tasks
 }
 
-//a function that loops through the quests placing them in active or done
+//Below is accessing the modal that shows the information of each task
+const modalModule = (() => {
+  //opens the modal
+  const showModule = (t) =>{
+  let modal = document.getElementById("myModal");
+  modal.style.display = "block";
+  let task = document.getElementById("taskName");
+  task.textContent = t.target.dataset.taskName;
+  
+}
+//closes module
+const closeModule = () =>{
+   let modal = document.getElementById("myModal");
+   modal.style.display = "none";
+}
+return {showModule,closeModule}
+})();
+
+//a function that loops through the main quests placing them in active or done
 const displayQuests =(()=> {
 
 const display = () => {  
@@ -50,6 +65,12 @@ const display = () => {
    let label = document.createElement("label")
    label.textContent = quests[i].title;
    label.setAttribute("id","label"+i)
+   
+   //adding modal functionality below
+   label.dataset.taskName = quests[i].title;
+   label.dataset.doneatt = quests[i].done;
+   label.addEventListener('click', modalModule.showModule);
+
    div.appendChild(label);
       
   if(quests[i].done === false){
@@ -106,7 +127,7 @@ function cleararray(){
 
 
 
-//*SQ below is the module for all the sidequest content
+//*SQ below is the module for all the sidequest content, same functions as above applied to the side quests
 const sideQuestModule =(() => {
 
 //below code is to process sidequests in the dropdown list
@@ -155,6 +176,11 @@ const display = (t) => {
    let label = document.createElement("label")
    label.textContent = sidequests[tt].tasks[i].title;
    label.setAttribute("id","label"+i)
+
+   //adding modal functionality below
+   label.dataset.taskName = sidequests[tt].tasks[i].title;
+   label.addEventListener('click', modalModule.showModule);
+
    div.appendChild(label);
       
   if(sidequests[tt].tasks[i].done === false){
