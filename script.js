@@ -15,6 +15,9 @@ let clearbutton = document.getElementById("clearb");
 //*LS* below calls the taskarray storage or if empty an empty array
 let quests = JSON.parse(localStorage.getItem("taskarray") || "[]");
 
+//accessing the remove side quest button
+let rmvsq = document.getElementById("removeSQ");
+
 //*SQ* this is the code to build the side quest implementation
 //*SQ* below is the array for the side quests
 //*SLQ* local storage for sidequests
@@ -74,6 +77,7 @@ const display = () => {
   add.addEventListener('click',displayQuests.addQuests)
   clearbutton.addEventListener('click',displayQuests.cleararray)
   document.querySelector("#header").textContent = "Main Quest"
+  rmvsq.style.display = "none";
     actdiv.textContent= "";
   compldiv.textContent="";
   for(i=0;i<quests.length;i++){
@@ -170,7 +174,9 @@ const dropdownside = () =>{
 const display = (t) => {
   let tt = t.target.dataset.projectnumber;
 
-
+  rmvsq.style.display = "inline";
+  rmvsq.dataset.projectnumber = tt;
+  rmvsq.addEventListener('click',sideQuestModule.deleteSQ)
   
   add.dataset.projectnumber = tt;
   add.removeEventListener('click',displayQuests.addQuests);
@@ -180,7 +186,6 @@ const display = (t) => {
   clearbutton.removeEventListener('click',displayQuests.cleararray);
   clearbutton.addEventListener('click', sideQuestModule.cleararray);
 
-  
   
   document.querySelector("#header").textContent = sidequests[tt].name;
   //Below i am tryin to process the list for each of the tasks of the specific side project
@@ -212,8 +217,20 @@ const display = (t) => {
    div.appendChild(input);
    actdiv.appendChild(div)}
    else if(sidequests[tt].tasks[i].done === true){compldiv.appendChild(div);}
+
   
   }
+}
+
+//Deletes sidequest from array and takes you back to the main quest menu
+const deleteSQ = (t) => {
+  let tt = t.target.dataset.projectnumber
+  sidequests.splice(tt,1);
+  localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
+  displayQuests.display();
+  sidediv.textContent = "";
+  sideQuestModule.dropdownside();
+
 }
 
 //changes side task to done and updates local storage
@@ -268,7 +285,7 @@ function cleararray(t){
 
 
 
-  return{dropdownside,display,check,addQuests,cleararray,addproject}
+  return{dropdownside,display,check,addQuests,cleararray,addproject,deleteSQ}
 
 })();
 sideQuestModule.dropdownside();
