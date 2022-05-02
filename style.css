@@ -99,6 +99,10 @@ label{color:red;}
   width: 80%;
 }
 
+.bold{font-weight:bold;}
+
+.hiddenbtns{display:none;}
+
 /* The Close Button */
 .close {
   color: #aaaaaa;

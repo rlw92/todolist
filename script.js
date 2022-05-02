@@ -38,8 +38,13 @@ const modalModule = (() => {
   const showModule = (t) =>{
   let modal = document.getElementById("myModal");
   modal.style.display = "block";
+  document.querySelector(".btns").style.display = "block";
+  document.querySelector(".hiddenbtns").style.display = "none";
   let task = document.getElementById("taskName");
   task.textContent = t.target.dataset.taskName;
+  let editbtn = document.getElementById("editbtn");
+  editbtn.dataset.taskName = t.target.dataset.taskName;
+  editbtn.addEventListener('click',modalModule.editModule);
   
 }
 //closes module
@@ -47,7 +52,19 @@ const closeModule = () =>{
    let modal = document.getElementById("myModal");
    modal.style.display = "none";
 }
-return {showModule,closeModule}
+
+const editModule = (t) =>{
+  let inputtn = document.createElement("input");
+  let inputtd = document.createElement("input");
+  let inputtdead = document.createElement("input");
+  document.getElementById("taskName").textContent = "";
+  inputtn.placeholder =t.target.dataset.taskName
+  document.getElementById("taskName").appendChild(inputtn);
+  document.querySelector(".btns").style.display = "none";
+  document.querySelector(".hiddenbtns").style.display = "block";
+
+}
+return {showModule,closeModule,editModule}
 })();
 
 //a function that loops through the main quests placing them in active or done

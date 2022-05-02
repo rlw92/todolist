@@ -15,8 +15,20 @@
   <!-- Modal content -->
   <div class="modal-content">
     <span onclick="modalModule.closeModule()" class="close">&times;</span>
-    <p id="taskName"></p>
-    <p id="donePara"></p>
+    <p><span class="bold">Name: </span><span id="taskName"></span></p>
+    <p><span class="bold">Description: </span><span id="taskDescritpion"></span></p>
+    <p><span class="bold">Deadline: </span><span id="taskDeadline"></span></p>
+    
+    <div class="btns">
+    <button id="editbtn">Edit</button>
+    <button id="dltbtn">Delete Task</button>
+</div>
+
+<div class="hiddenbtns">
+  <button id="savebtn">Save Changes</button>
+    <button id="cancelbtn">Cancel</button>
+</div>
+
   </div>
 
 </div>
@@ -43,7 +55,7 @@
             
         </div> 
         <br>
-        <button id="add">Add Quest</button>
+        <button id="add">Add Task</button>
     </div>
 
     <div class="completeQuestContainer">
