@@ -47,7 +47,6 @@ const modalModule = (() => {
   task.textContent = t.target.dataset.taskName;
   let editbtn = document.getElementById("editbtn");
   editbtn.dataset.taskName = t.target.dataset.taskName;
-  editbtn.dataset.array = t.target.dataset.array;
   editbtn.dataset.taskno = t.target.dataset.taskno;
   editbtn.addEventListener('click',modalModule.editModule);
   
@@ -79,6 +78,7 @@ const editModule = (t) =>{
 const saveEdit = (t) => {
 let tt = t.target.dataset.taskno;
 let chanName = document.getElementById("changeName");
+if(chanName.value === ""){chanName.value = quests[tt].title}
 quests[tt].title = chanName.value;
 localStorage.setItem("taskarray", JSON.stringify(quests));
 modalModule.closeModule();
