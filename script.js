@@ -47,7 +47,10 @@ const modalModule = (() => {
   task.textContent = t.target.dataset.taskName;
   let editbtn = document.getElementById("editbtn");
   editbtn.dataset.taskName = t.target.dataset.taskName;
+  editbtn.dataset.array = t.target.dataset.array;
   editbtn.dataset.taskno = t.target.dataset.taskno;
+  editbtn.dataset.projectno = t.target.dataset.projectno;
+  
   editbtn.addEventListener('click',modalModule.editModule);
   
 }
@@ -69,13 +72,22 @@ const editModule = (t) =>{
   document.querySelector(".hiddenbtns").style.display = "block";
   let saveBtn = document.getElementById("savebtn");
   saveBtn.dataset.taskno = t.target.dataset.taskno;
-  saveBtn.addEventListener('click',modalModule.saveEdit)
+  saveBtn.dataset.projectno = t.target.dataset.projectno;
+  saveBtn.dataset.projectnumber = t.target.dataset.projectno;
+  console.log(t.target.dataset.array);
+  saveBtn.dataset.array = t.target.dataset.array;
   let cnclBtn = document.getElementById("cancelbtn");
+  saveBtn.addEventListener('click',modalModule.saveEdit)
   cnclBtn.addEventListener('click', modalModule.closeModule)
+
+  
 
 }
 
 const saveEdit = (t) => {
+console.log(t.target.dataset.array);
+
+if(t.target.dataset.array === "1"){
 let tt = t.target.dataset.taskno;
 let chanName = document.getElementById("changeName");
 if(chanName.value === ""){chanName.value = quests[tt].title}
@@ -83,6 +95,19 @@ quests[tt].title = chanName.value;
 localStorage.setItem("taskarray", JSON.stringify(quests));
 modalModule.closeModule();
 displayQuests.display();
+}
+else{
+let tt = t.target.dataset.taskno;
+let pn = t.target.dataset.projectno;
+let chanName = document.getElementById("changeName");
+if(chanName.value === ""){chanName.value = quests[tt].title}
+sidequests[pn].tasks[tt].title = chanName.value;
+modalModule.closeModule();
+localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
+sideQuestModule.display(t);
+
+}
+
 }
 
 return {showModule,closeModule,editModule,saveEdit}
@@ -108,7 +133,7 @@ const display = () => {
    //adding modal functionality below
    label.dataset.taskName = quests[i].title;
    label.dataset.doneatt = quests[i].done;
-   label.dataset.array = quests;
+   label.dataset.array = 1;
    label.dataset.taskno = i;
    label.addEventListener('click', modalModule.showModule);
 
@@ -221,6 +246,8 @@ const display = (t) => {
 
    //adding modal functionality below
    label.dataset.taskName = sidequests[tt].tasks[i].title;
+   label.dataset.projectno = tt;
+   label.dataset.taskno = i;
    label.addEventListener('click', modalModule.showModule);
 
    div.appendChild(label);
