@@ -11,12 +11,12 @@ let add = document.getElementById("add");
 //access the clear button
 let clearbutton = document.getElementById("clearb");
 
+//accessing the remove side quest button
+let rmvsq = document.getElementById("removeSQ");
+
 //*LS* this is the code to build the local storage
 //*LS* below calls the taskarray storage or if empty an empty array
 let quests = JSON.parse(localStorage.getItem("taskarray") || "[]");
-
-//accessing the remove side quest button
-let rmvsq = document.getElementById("removeSQ");
 
 //*SQ* this is the code to build the side quest implementation
 //*SQ* below is the array for the side quests
@@ -47,6 +47,8 @@ const modalModule = (() => {
   task.textContent = t.target.dataset.taskName;
   let editbtn = document.getElementById("editbtn");
   editbtn.dataset.taskName = t.target.dataset.taskName;
+  editbtn.dataset.array = t.target.dataset.array;
+  editbtn.dataset.taskno = t.target.dataset.taskno;
   editbtn.addEventListener('click',modalModule.editModule);
   
 }
@@ -62,12 +64,28 @@ const editModule = (t) =>{
   let inputtdead = document.createElement("input");
   document.getElementById("taskName").textContent = "";
   inputtn.placeholder =t.target.dataset.taskName
+  inputtn.setAttribute("id","changeName");
   document.getElementById("taskName").appendChild(inputtn);
   document.querySelector(".btns").style.display = "none";
   document.querySelector(".hiddenbtns").style.display = "block";
+  let saveBtn = document.getElementById("savebtn");
+  saveBtn.dataset.taskno = t.target.dataset.taskno;
+  saveBtn.addEventListener('click',modalModule.saveEdit)
+  let cnclBtn = document.getElementById("cancelbtn");
+  cnclBtn.addEventListener('click', modalModule.closeModule)
 
 }
-return {showModule,closeModule,editModule}
+
+const saveEdit = (t) => {
+let tt = t.target.dataset.taskno;
+let chanName = document.getElementById("changeName");
+quests[tt].title = chanName.value;
+localStorage.setItem("taskarray", JSON.stringify(quests));
+modalModule.closeModule();
+displayQuests.display();
+}
+
+return {showModule,closeModule,editModule,saveEdit}
 })();
 
 //a function that loops through the main quests placing them in active or done
@@ -90,6 +108,8 @@ const display = () => {
    //adding modal functionality below
    label.dataset.taskName = quests[i].title;
    label.dataset.doneatt = quests[i].done;
+   label.dataset.array = quests;
+   label.dataset.taskno = i;
    label.addEventListener('click', modalModule.showModule);
 
    div.appendChild(label);
