@@ -45,13 +45,21 @@ const modalModule = (() => {
   document.querySelector(".hiddenbtns").style.display = "none";
   let task = document.getElementById("taskName");
   task.textContent = t.target.dataset.taskName;
+  //accessing the edit button
   let editbtn = document.getElementById("editbtn");
   editbtn.dataset.taskName = t.target.dataset.taskName;
   editbtn.dataset.array = t.target.dataset.array;
   editbtn.dataset.taskno = t.target.dataset.taskno;
   editbtn.dataset.projectno = t.target.dataset.projectno;
-  
   editbtn.addEventListener('click',modalModule.editModule);
+  //accessing the delete task button
+  let dltbtn = document.getElementById("dltbtn");
+  dltbtn.dataset.taskName = t.target.dataset.taskName;
+  dltbtn.dataset.array = t.target.dataset.array;
+  dltbtn.dataset.taskno = t.target.dataset.taskno;
+  dltbtn.dataset.projectno = t.target.dataset.projectno;
+  dltbtn.dataset.projectnumber = t.target.dataset.projectno;
+  dltbtn.addEventListener('click',modalModule.rmvtask);
   
 }
 //closes module
@@ -60,6 +68,25 @@ const closeModule = () =>{
    modal.style.display = "none";
 }
 
+//removes task
+const rmvtask = (t) => {
+  let tt = t.target.dataset.taskno;
+  if(t.target.dataset.array === "1"){
+  quests.splice(tt,1);
+  localStorage.setItem("taskarray", JSON.stringify(quests));
+modalModule.closeModule();
+displayQuests.display();}
+else{
+  let pn = t.target.dataset.projectno;
+    sidequests[pn].tasks.splice(tt,1);
+  localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
+sideQuestModule.display(t);
+modalModule.closeModule();
+}
+
+}
+
+//edits the task
 const editModule = (t) =>{
   let inputtn = document.createElement("input");
   let inputtd = document.createElement("input");
@@ -102,15 +129,15 @@ let pn = t.target.dataset.projectno;
 let chanName = document.getElementById("changeName");
 if(chanName.value === ""){chanName.value = quests[tt].title}
 sidequests[pn].tasks[tt].title = chanName.value;
-modalModule.closeModule();
+
 localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
 sideQuestModule.display(t);
-
+modalModule.closeModule();
 }
 
 }
 
-return {showModule,closeModule,editModule,saveEdit}
+return {showModule,closeModule,editModule,saveEdit,rmvtask}
 })();
 
 //a function that loops through the main quests placing them in active or done
