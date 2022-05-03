@@ -101,7 +101,7 @@ const editModule = (t) =>{
   document.getElementById("taskName").appendChild(inputtn);
  
   //change task description
-  let inputtd = document.createElement("input");
+  let inputtd = document.createElement("textarea");
   document.getElementById("taskDescription").textContent = "";
   inputtd.placeholder = t.target.dataset.description;
   inputtd.setAttribute("id","changeDescription");
