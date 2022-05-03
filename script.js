@@ -24,15 +24,17 @@ let quests = JSON.parse(localStorage.getItem("taskarray") || "[]");
 let sidequests = JSON.parse(localStorage.getItem("sidequesttaskarray") || "[]");
 
 //factory function that  creates quests
-function quest(title,done){
+function quest(title,done,description){
     this.title = title
     this.done = done
+    this.description = description
   }
 
 //factory function that creates sidequests
 function sidequestfactory(name,tasks){
   this.name = name
   this.tasks = tasks
+  
 }
 
 //Below is accessing the modal that shows the information of each task
@@ -45,9 +47,12 @@ const modalModule = (() => {
   document.querySelector(".hiddenbtns").style.display = "none";
   let task = document.getElementById("taskName");
   task.textContent = t.target.dataset.taskName;
+  let describe = document.getElementById("taskDescription")
+  describe.textContent = t.target.dataset.description;
   //accessing the edit button
   let editbtn = document.getElementById("editbtn");
   editbtn.dataset.taskName = t.target.dataset.taskName;
+  editbtn.dataset.description = t.target.dataset.description;
   editbtn.dataset.array = t.target.dataset.array;
   editbtn.dataset.taskno = t.target.dataset.taskno;
   editbtn.dataset.projectno = t.target.dataset.projectno;
@@ -88,15 +93,25 @@ modalModule.closeModule();
 
 //edits the task
 const editModule = (t) =>{
+  //change name
   let inputtn = document.createElement("input");
-  let inputtd = document.createElement("input");
-  let inputtdead = document.createElement("input");
   document.getElementById("taskName").textContent = "";
   inputtn.placeholder =t.target.dataset.taskName
   inputtn.setAttribute("id","changeName");
   document.getElementById("taskName").appendChild(inputtn);
+ 
+  //change task description
+  let inputtd = document.createElement("input");
+  document.getElementById("taskDescription").textContent = "";
+  inputtd.placeholder = t.target.dataset.description;
+  inputtd.setAttribute("id","changeDescription");
+  document.getElementById("taskDescription").appendChild(inputtd);
+
+  let inputtdead = document.createElement("input");
+  //hide edit and delete buttons show save and cancel
   document.querySelector(".btns").style.display = "none";
   document.querySelector(".hiddenbtns").style.display = "block";
+
   let saveBtn = document.getElementById("savebtn");
   saveBtn.dataset.taskno = t.target.dataset.taskno;
   saveBtn.dataset.projectno = t.target.dataset.projectno;
@@ -116,9 +131,14 @@ console.log(t.target.dataset.array);
 
 if(t.target.dataset.array === "1"){
 let tt = t.target.dataset.taskno;
+//change name
 let chanName = document.getElementById("changeName");
 if(chanName.value === ""){chanName.value = quests[tt].title}
 quests[tt].title = chanName.value;
+//change description
+let chanDes = document.getElementById("changeDescription");
+if(chanDes.value === ""){chanDes.value = quests[tt].description}
+quests[tt].description = chanDes.value;
 localStorage.setItem("taskarray", JSON.stringify(quests));
 modalModule.closeModule();
 displayQuests.display();
@@ -127,9 +147,11 @@ else{
 let tt = t.target.dataset.taskno;
 let pn = t.target.dataset.projectno;
 let chanName = document.getElementById("changeName");
-if(chanName.value === ""){chanName.value = quests[tt].title}
+if(chanName.value === ""){chanName.value = sidequests[pn].tasks[tt].title}
 sidequests[pn].tasks[tt].title = chanName.value;
-
+let chanDes = document.getElementById("changeDescription");
+if(chanDes.value === ""){chanDes.value = sidequests[pn].tasks[tt].description}
+sidequests[pn].tasks[tt].description = chanDes.value;
 localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
 sideQuestModule.display(t);
 modalModule.closeModule();
@@ -159,6 +181,7 @@ const display = () => {
    
    //adding modal functionality below
    label.dataset.taskName = quests[i].title;
+   label.dataset.description = quests[i].description;
    label.dataset.doneatt = quests[i].done;
    label.dataset.array = 1;
    label.dataset.taskno = i;
@@ -193,7 +216,8 @@ const addQuests = () =>{
   let c = prompt("Enter your quest young knight!");
   let title = c;
   let done = false;
-  let q = new quest(title,done);
+  let description = "";
+  let q = new quest(title,done,description);
   quests.push(q);
   localStorage.setItem("taskarray", JSON.stringify(quests));
   displayQuests.display();
@@ -273,6 +297,7 @@ const display = (t) => {
 
    //adding modal functionality below
    label.dataset.taskName = sidequests[tt].tasks[i].title;
+   label.dataset.description = sidequests[tt].tasks[i].description;
    label.dataset.projectno = tt;
    label.dataset.taskno = i;
    label.addEventListener('click', modalModule.showModule);
@@ -337,10 +362,11 @@ const addproject  = () =>{
 const addQuests = (t) =>{
   let c = prompt("Enter your quest young knight!");
   let title = c;
+  let description = "";
   let done = false;
   let tt = t.target.dataset.projectnumber;
   console.log(tt);
-  let q = new quest(title,done);
+  let q = new quest(title,done,description);
 
   sidequests[tt].tasks.push(q);
   localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
