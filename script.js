@@ -24,10 +24,11 @@ let quests = JSON.parse(localStorage.getItem("taskarray") || "[]");
 let sidequests = JSON.parse(localStorage.getItem("sidequesttaskarray") || "[]");
 
 //factory function that  creates quests
-function quest(title,done,description){
+function quest(title,done,description,deadline){
     this.title = title
     this.done = done
     this.description = description
+    this.deadline = deadline
   }
 
 //factory function that creates sidequests
@@ -49,10 +50,13 @@ const modalModule = (() => {
   task.textContent = t.target.dataset.taskName;
   let describe = document.getElementById("taskDescription")
   describe.textContent = t.target.dataset.description;
+  let deadline = document.getElementById("taskDeadline");
+  deadline.textContent = t.target.dataset.deadline;
   //accessing the edit button
   let editbtn = document.getElementById("editbtn");
   editbtn.dataset.taskName = t.target.dataset.taskName;
   editbtn.dataset.description = t.target.dataset.description;
+  editbtn.dataset.deadline = t.target.dataset.deadline;
   editbtn.dataset.array = t.target.dataset.array;
   editbtn.dataset.taskno = t.target.dataset.taskno;
   editbtn.dataset.projectno = t.target.dataset.projectno;
@@ -107,7 +111,15 @@ const editModule = (t) =>{
   inputtd.setAttribute("id","changeDescription");
   document.getElementById("taskDescription").appendChild(inputtd);
 
-  let inputtdead = document.createElement("input");
+   //set deadline
+  let inputtddead = document.createElement("input");
+  document.getElementById("taskDeadline").textContent = "";
+  inputtddead.placeholder = t.target.dataset.deadline;
+  inputtddead.type = "date";
+  //inputtddead.value = 
+  inputtddead.setAttribute("id","changeDeadline");
+  document.getElementById("taskDeadline").appendChild(inputtddead);
+
   //hide edit and delete buttons show save and cancel
   document.querySelector(".btns").style.display = "none";
   document.querySelector(".hiddenbtns").style.display = "block";
@@ -116,6 +128,7 @@ const editModule = (t) =>{
   saveBtn.dataset.taskno = t.target.dataset.taskno;
   saveBtn.dataset.projectno = t.target.dataset.projectno;
   saveBtn.dataset.projectnumber = t.target.dataset.projectno;
+  saveBtn.dataset.deadline = t.target.dataset.deadline;
   console.log(t.target.dataset.array);
   saveBtn.dataset.array = t.target.dataset.array;
   let cnclBtn = document.getElementById("cancelbtn");
@@ -128,6 +141,7 @@ const editModule = (t) =>{
 
 const saveEdit = (t) => {
 console.log(t.target.dataset.array);
+console.log(t.target.dataset.deadline);
 
 if(t.target.dataset.array === "1"){
 let tt = t.target.dataset.taskno;
@@ -135,10 +149,15 @@ let tt = t.target.dataset.taskno;
 let chanName = document.getElementById("changeName");
 if(chanName.value === ""){chanName.value = quests[tt].title}
 quests[tt].title = chanName.value;
-//change description
+//set or change description
 let chanDes = document.getElementById("changeDescription");
 if(chanDes.value === ""){chanDes.value = quests[tt].description}
 quests[tt].description = chanDes.value;
+//set or change deadline
+let chanDead = document.getElementById("changeDeadline");
+if(chanDead.value === ""){chanDead.value = quests[tt].deadline}
+quests[tt].deadline = chanDead.value;
+//store it to local storage
 localStorage.setItem("taskarray", JSON.stringify(quests));
 modalModule.closeModule();
 displayQuests.display();
@@ -146,12 +165,18 @@ displayQuests.display();
 else{
 let tt = t.target.dataset.taskno;
 let pn = t.target.dataset.projectno;
+//title
 let chanName = document.getElementById("changeName");
 if(chanName.value === ""){chanName.value = sidequests[pn].tasks[tt].title}
 sidequests[pn].tasks[tt].title = chanName.value;
+//description
 let chanDes = document.getElementById("changeDescription");
 if(chanDes.value === ""){chanDes.value = sidequests[pn].tasks[tt].description}
 sidequests[pn].tasks[tt].description = chanDes.value;
+//deadline
+let chanDead = document.getElementById("changeDeadline");
+if(chanDead.value === ""){chanDead.value = sidequests[pn].tasks[tt].deadline}
+sidequests[pn].tasks[tt].deadline = chanDead.value;
 localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
 sideQuestModule.display(t);
 modalModule.closeModule();
@@ -183,6 +208,7 @@ const display = () => {
    label.dataset.taskName = quests[i].title;
    label.dataset.description = quests[i].description;
    label.dataset.doneatt = quests[i].done;
+   label.dataset.deadline = quests[i].deadline;
    label.dataset.array = 1;
    label.dataset.taskno = i;
    label.addEventListener('mouseover',()=>{label.style = "border-bottom:2px solid black;cursor:pointer"});
@@ -221,7 +247,8 @@ const addQuests = () =>{
   let title = c;
   let done = false;
   let description = "";
-  let q = new quest(title,done,description);
+  let deadline = "";
+  let q = new quest(title,done,description,deadline);
   quests.push(q);
   localStorage.setItem("taskarray", JSON.stringify(quests));
   displayQuests.display();
@@ -303,6 +330,7 @@ const display = (t) => {
    label.dataset.taskName = sidequests[tt].tasks[i].title;
    label.dataset.description = sidequests[tt].tasks[i].description;
    label.dataset.projectno = tt;
+   label.dataset.deadline = sidequests[tt].tasks[i].deadline;
    label.dataset.taskno = i;
    label.addEventListener('mouseover',()=>{label.style = "border-bottom:2px solid black;cursor:pointer"});
    label.addEventListener('mouseleave',()=>{label.style = "border-bottom:none"});
@@ -372,9 +400,10 @@ const addQuests = (t) =>{
   let title = c;
   let description = "";
   let done = false;
+  let deadline = "";
   let tt = t.target.dataset.projectnumber;
   console.log(tt);
-  let q = new quest(title,done,description);
+  let q = new quest(title,done,description,deadline);
 
   sidequests[tt].tasks.push(q);
   localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
