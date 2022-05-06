@@ -1,5 +1,5 @@
 label{color:red;}
-.activeQuestContent div{display:flex;gap:20px;justify-content: center;}
+.activeQuestContent div{display:flex;gap:20px;justify-content: center;padding:2px;}
 .completeQuestContent div{display:flex;margin:2px;justify-content: center;}
 *{text-align:center;}
 

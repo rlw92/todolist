@@ -185,13 +185,17 @@ const display = () => {
    label.dataset.doneatt = quests[i].done;
    label.dataset.array = 1;
    label.dataset.taskno = i;
+   label.addEventListener('mouseover',()=>{label.style = "border-bottom:2px solid black;cursor:pointer"});
+   label.addEventListener('mouseleave',()=>{label.style = "border-bottom:none"});
    label.addEventListener('click', modalModule.showModule);
 
    div.appendChild(label);
       
   if(quests[i].done === false){
    let input = document.createElement("div");
-   let button = document.createElement("button");
+   let button = document.createElement("span");
+   button.addEventListener('mouseover',()=>{button.style = "color:green;cursor:pointer;"});
+   button.addEventListener('mouseleave',()=>{button.style = "color:black;"});
    button.addEventListener('click',displayQuests.check);
    button.textContent = "Done";
    button.value = i;
@@ -260,7 +264,7 @@ const dropdownside = () =>{
   let aa = document.createElement("a");
   aa.textContent = "Add Side Quest";
   aa.style = "background-color:yellow";
-  aa.addEventListener('mouseover',()=>{aa.style.backgroundColor = "green"});
+  aa.addEventListener('mouseover',()=>{aa.style = "background-color:green;cursor:pointer;"});
   aa.addEventListener('mouseleave',()=>{aa.style.backgroundColor = "yellow"});
   aa.addEventListener('click',sideQuestModule.addproject);
   sidediv.appendChild(aa);
@@ -300,16 +304,20 @@ const display = (t) => {
    label.dataset.description = sidequests[tt].tasks[i].description;
    label.dataset.projectno = tt;
    label.dataset.taskno = i;
+   label.addEventListener('mouseover',()=>{label.style = "border-bottom:2px solid black;cursor:pointer"});
+   label.addEventListener('mouseleave',()=>{label.style = "border-bottom:none"});
    label.addEventListener('click', modalModule.showModule);
 
    div.appendChild(label);
       
   if(sidequests[tt].tasks[i].done === false){
    let input = document.createElement("div");
-   let button = document.createElement("button");
+   let button = document.createElement("span");
    button.textContent = "Done";
    button.value = i;
    button.dataset.projectnumber = tt;
+   button.addEventListener('mouseover',()=>{button.style = "color:green;cursor:pointer;"});
+   button.addEventListener('mouseleave',()=>{button.style = "color:black;"});
    button.addEventListener('click',sideQuestModule.check);
    
    input.appendChild(button);
