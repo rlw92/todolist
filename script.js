@@ -69,6 +69,19 @@ const modalModule = (() => {
   dltbtn.dataset.projectno = t.target.dataset.projectno;
   dltbtn.dataset.projectnumber = t.target.dataset.projectno;
   dltbtn.addEventListener('click',modalModule.rmvtask);
+  //accessing undo task button
+  let undobtn = document.getElementById("undobtn");
+  undobtn.dataset.taskName = t.target.dataset.taskName;
+  undobtn.dataset.array = t.target.dataset.array;
+  undobtn.dataset.taskno = t.target.dataset.taskno;
+  undobtn.dataset.projectno = t.target.dataset.projectno;
+  undobtn.dataset.projectnumber = t.target.dataset.projectno;
+  if(t.target.dataset.doneatt === "true"){
+    undobtn.style.display = "inline";
+  }
+  else{undobtn.style.display = "none";}
+  undobtn.addEventListener('click', undo);
+
   
 }
 //closes module
@@ -92,6 +105,25 @@ else{
 sideQuestModule.display(t);
 modalModule.closeModule();
 }
+
+}
+
+//puts completed task back into active tasks
+const undo = (t) => {
+  let tt = t.target.dataset.taskno;
+  if(t.target.dataset.array === "1"){
+  quests[tt].done = false;
+    localStorage.setItem("taskarray", JSON.stringify(quests));
+modalModule.closeModule();
+displayQuests.display();}
+else{
+  let pn = t.target.dataset.projectno;
+    sidequests[pn].tasks[tt].done = false;
+  localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
+sideQuestModule.display(t);
+modalModule.closeModule();
+}
+
 
 }
 
@@ -184,7 +216,7 @@ modalModule.closeModule();
 
 }
 
-return {showModule,closeModule,editModule,saveEdit,rmvtask}
+return {showModule,closeModule,editModule,saveEdit,rmvtask,undo}
 })();
 
 //a function that loops through the main quests placing them in active or done
@@ -332,6 +364,7 @@ const display = (t) => {
    label.dataset.projectno = tt;
    label.dataset.deadline = sidequests[tt].tasks[i].deadline;
    label.dataset.taskno = i;
+   label.dataset.doneatt = sidequests[tt].tasks[i].done;
    label.addEventListener('mouseover',()=>{label.style = "border-bottom:2px solid black;cursor:pointer"});
    label.addEventListener('mouseleave',()=>{label.style = "border-bottom:none"});
    label.addEventListener('click', modalModule.showModule);
