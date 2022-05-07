@@ -11,6 +11,9 @@ let add = document.getElementById("add");
 //access the clear button
 let clearbutton = document.getElementById("clearb");
 
+//access clearcomp button
+let clearcomp = document.getElementById("clearcomp");
+
 //accessing the remove side quest button
 let rmvsq = document.getElementById("removeSQ");
 
@@ -225,6 +228,7 @@ const displayQuests =(()=> {
 const display = () => {  
   add.addEventListener('click',displayQuests.addQuests)
   clearbutton.addEventListener('click',displayQuests.cleararray)
+  clearcomp.addEventListener('click',displayQuests.clearcompl)
   document.querySelector("#header").textContent = "Main Quest"
   rmvsq.style.display = "none";
     actdiv.textContent= "";
@@ -243,6 +247,9 @@ const display = () => {
    label.dataset.deadline = quests[i].deadline;
    label.dataset.array = 1;
    label.dataset.taskno = i;
+   
+
+   
    label.addEventListener('mouseover',()=>{label.style = "border-bottom:2px solid black;cursor:pointer"});
    label.addEventListener('mouseleave',()=>{label.style = "border-bottom:none"});
    label.addEventListener('click', modalModule.showModule);
@@ -295,7 +302,25 @@ function cleararray(){
   quests = [];
   localStorage.setItem("taskarray", JSON.stringify(quests));
 }
-  return{display,check,addQuests,cleararray}
+
+function clearcompl(){
+  let donearr = [];
+  for(i=0;i<quests.length;i++){
+    if(quests[i].done === true){
+      donearr.push(i)
+    }
+  }
+  console.log(donearr);
+  for (i = donearr.length -1; i >= 0; i--)
+   quests.splice(donearr[i],1)
+  alert("Function under construction, sorry for the iconvenience")
+console.log("Work In Progress")
+localStorage.setItem("taskarray", JSON.stringify(quests));
+displayQuests.display();
+}
+
+
+  return{display,check,addQuests,cleararray,clearcompl}
 
 })();
   displayQuests.display();
@@ -344,6 +369,12 @@ const display = (t) => {
   clearbutton.dataset.projectnumber = tt;
   clearbutton.removeEventListener('click',displayQuests.cleararray);
   clearbutton.addEventListener('click', sideQuestModule.cleararray);
+
+  clearcomp.dataset.projectnumber = tt;
+  clearcomp.removeEventListener('click',displayQuests.clearcompl);
+  clearcomp.addEventListener('click',sideQuestModule.clearcompl);
+
+
 
   
   document.querySelector("#header").textContent = sidequests[tt].name;
@@ -453,9 +484,26 @@ function cleararray(t){
   localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
 }
 
+function clearcompl(t){
+  let tt = t.target.dataset.projectnumber;
+  let donearr = [];
+  for(i=0;i<sidequests[tt].tasks.length;i++){
+    if(sidequests[tt].tasks[i].done === true){
+      donearr.push(i)
+    }
+  }
+  console.log(donearr);
+  for (i = donearr.length -1; i >= 0; i--)
+   sidequests[tt].tasks.splice(donearr[i],1)
+  alert("Function under construction, sorry for the iconvenience")
+console.log("Work In Progress")
+localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
+sideQuestModule.display(t);
+}
 
 
-  return{dropdownside,display,check,addQuests,cleararray,addproject,deleteSQ}
+
+  return{dropdownside,display,check,addQuests,cleararray,addproject,deleteSQ,clearcompl}
 
 })();
 sideQuestModule.dropdownside();
