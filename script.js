@@ -511,4 +511,6 @@ sideQuestModule.dropdownside();
 //Below is accessing the main quest button
 document.getElementById("mainb").addEventListener('click',()=>{
   add.removeEventListener('click',sideQuestModule.addQuests);
+  add.removeEventListener('click',sideQuestModule.clearcompl);
+  add.removeEventListener('click',sideQuestModule.cleararray);
    displayQuests.display()})
