@@ -227,8 +227,13 @@ const displayQuests =(()=> {
 
 const display = () => {  
   add.addEventListener('click',displayQuests.addQuests)
+
+  
   clearbutton.addEventListener('click',displayQuests.cleararray)
+
   clearcomp.addEventListener('click',displayQuests.clearcompl)
+
+
   document.querySelector("#header").textContent = "Main Quest"
   rmvsq.style.display = "none";
     actdiv.textContent= "";
@@ -326,12 +331,6 @@ displayQuests.display();
   displayQuests.display();
 
   
-
-
-
-
-
-
 //*SQ below is the module for all the sidequest content, same functions as above applied to the side quests
 const sideQuestModule =(() => {
 
