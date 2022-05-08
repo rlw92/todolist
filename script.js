@@ -252,11 +252,14 @@ const display = () => {
    label.dataset.deadline = quests[i].deadline;
    label.dataset.array = 1;
    label.dataset.taskno = i;
-   
 
    
-   label.addEventListener('mouseover',()=>{label.style = "border-bottom:2px solid black;cursor:pointer"});
-   label.addEventListener('mouseleave',()=>{label.style = "border-bottom:none"});
+   let color =  time(quests[i].deadline)
+   label.style.color = color;
+
+   
+   label.addEventListener('mouseover',()=>{label.style = "color:"+color+";border-bottom:2px solid black;cursor:pointer"});
+   label.addEventListener('mouseleave',()=>{label.style = "color:"+color+";border-bottom:none"});
    label.addEventListener('click', modalModule.showModule);
 
    div.appendChild(label);
@@ -393,8 +396,13 @@ const display = (t) => {
    label.dataset.deadline = sidequests[tt].tasks[i].deadline;
    label.dataset.taskno = i;
    label.dataset.doneatt = sidequests[tt].tasks[i].done;
-   label.addEventListener('mouseover',()=>{label.style = "border-bottom:2px solid black;cursor:pointer"});
-   label.addEventListener('mouseleave',()=>{label.style = "border-bottom:none"});
+
+   let color =  time(sidequests[tt].tasks[i].deadline);
+   label.style.color = color;
+
+
+   label.addEventListener('mouseover',()=>{label.style = "color:"+color+";border-bottom:2px solid black;cursor:pointer"});
+   label.addEventListener('mouseleave',()=>{label.style = "color:"+color+";border-bottom:none"});
    label.addEventListener('click', modalModule.showModule);
 
    div.appendChild(label);
@@ -512,14 +520,23 @@ document.getElementById("mainb").addEventListener('click',()=>{
    displayQuests.display()})
 
    //playing around with time manipulation
-   function time(){
+   function time(t){
    const now = new Date();
-   const deadline = new Date("may 9 2022 10:24");
+   const deadline = new Date(t);
    let nowm = now.getTime()
   let deadm = deadline.getTime()
    console.log(nowm)
    console.log(deadm)
-  if(deadm - nowm <= 86400000){
-    console.log("deadline almost up")}
-    else{console.log("Still time")}
+   if(t === ""){
+      color="green";
+    }
+  else if(deadm - nowm <= 86400000){
+    console.log("deadline almost up")
+    color = "red";}
+    
+    else{
+  console.log("Still time")
+  color = "rgb(233, 162, 10)";}
+
+    return color;
   }
