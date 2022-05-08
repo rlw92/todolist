@@ -1,4 +1,4 @@
-/*label{color:rgb(32, 10, 233);}*/
+label{color:rgb(233, 162, 10);}
 .activeQuestContent div{display:flex;gap:20px;justify-content: center;padding:2px;}
 .completeQuestContent div{display:flex;margin:2px;justify-content: center;}
 *{text-align:center;}

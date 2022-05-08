@@ -164,7 +164,6 @@ const editModule = (t) =>{
   saveBtn.dataset.projectno = t.target.dataset.projectno;
   saveBtn.dataset.projectnumber = t.target.dataset.projectno;
   saveBtn.dataset.deadline = t.target.dataset.deadline;
-  console.log(t.target.dataset.array);
   saveBtn.dataset.array = t.target.dataset.array;
   let cnclBtn = document.getElementById("cancelbtn");
   saveBtn.addEventListener('click',modalModule.saveEdit)
@@ -525,17 +524,18 @@ document.getElementById("mainb").addEventListener('click',()=>{
    const deadline = new Date(t);
    let nowm = now.getTime()
   let deadm = deadline.getTime()
-   console.log(nowm)
-   console.log(deadm)
-   if(t === ""){
+      if(t === undefined){
       color="green";
     }
+  else if(t === ""){
+    color = "green";
+  }
   else if(deadm - nowm <= 86400000){
-    console.log("deadline almost up")
+    
     color = "red";}
     
     else{
-  console.log("Still time")
+  
   color = "rgb(233, 162, 10)";}
 
     return color;
