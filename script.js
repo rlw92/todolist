@@ -318,9 +318,7 @@ function clearcompl(){
   console.log(donearr);
   for (i = donearr.length -1; i >= 0; i--)
    quests.splice(donearr[i],1)
-  alert("Function under construction, sorry for the iconvenience")
-console.log("Work In Progress")
-localStorage.setItem("taskarray", JSON.stringify(quests));
+  localStorage.setItem("taskarray", JSON.stringify(quests));
 displayQuests.display();
 }
 
@@ -494,8 +492,6 @@ function clearcompl(t){
   console.log(donearr);
   for (i = donearr.length -1; i >= 0; i--)
    sidequests[tt].tasks.splice(donearr[i],1)
-  alert("Function under construction, sorry for the iconvenience")
-console.log("Work In Progress")
 localStorage.setItem("sidequesttaskarray", JSON.stringify(sidequests));
 sideQuestModule.display(t);
 }
@@ -511,6 +507,19 @@ sideQuestModule.dropdownside();
 //Below is accessing the main quest button
 document.getElementById("mainb").addEventListener('click',()=>{
   add.removeEventListener('click',sideQuestModule.addQuests);
-  add.removeEventListener('click',sideQuestModule.clearcompl);
-  add.removeEventListener('click',sideQuestModule.cleararray);
+  clearcomp.removeEventListener('click',sideQuestModule.clearcompl);
+  clearbutton.removeEventListener('click',sideQuestModule.cleararray);
    displayQuests.display()})
+
+   //playing around with time manipulation
+   function time(){
+   const now = new Date();
+   const deadline = new Date("may 9 2022 10:24");
+   let nowm = now.getTime()
+  let deadm = deadline.getTime()
+   console.log(nowm)
+   console.log(deadm)
+  if(deadm - nowm <= 86400000){
+    console.log("deadline almost up")}
+    else{console.log("Still time")}
+  }
