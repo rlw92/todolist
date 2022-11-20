@@ -284,7 +284,7 @@ const displayQuests =(()=> {
     //adding quests into  array using factory function
     const addQuests = () =>{
       let c = prompt("Enter the title of your quest young knight!");
-      if(c===""){alert("A quest must have a name!")}
+      if(c===""  || c===null){alert("A quest must have a name!")}
       else{
       let title = c;
       let done = false;

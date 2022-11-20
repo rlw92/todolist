@@ -341,7 +341,7 @@ const sideQuestModule =(() => {
     //adding sidequests to sidequests
     const addproject  = () =>{
       let c = prompt("Enter the name of your side quest");
-      if(c===""){alert("A sidequest must be named!")}
+      if(c===""|| c===null){alert("A sidequest must be named!")}
       else{
       let name = c;
       let tasks = [];
@@ -357,7 +357,7 @@ const sideQuestModule =(() => {
     //adding quests into  array using factory function
     const addQuests = (t) =>{
       let c = prompt("Enter the title of your quest young knight!");
-      if(c===""){alert("A quest must have a name")}
+      if(c===""|| c===null){alert("A quest must have a name")}
       else{
       let title = c;
       let description = "";
