@@ -3,7 +3,7 @@ import {displayQuests} from './display'
 import{sideQuestModule} from './sidequest'
 
 
-
+console.log("WOOOOORK");
 
 //closing modal button
 document.querySelector(".close").addEventListener('click',modalModule.closeModule);
@@ -29,7 +29,7 @@ function quest(title,done,description,deadline){
 function sidequestfactory(name,tasks){
   this.name = name
   this.tasks = tasks
-  
+
 }
 
 //Below is accessing the modal that shows the information of each task
@@ -38,7 +38,7 @@ function sidequestfactory(name,tasks){
 //a function that loops through the main quests placing them in active or done
   displayQuests.display();
 
-  
+
 //*SQ below is the module for all the sidequest content, same functions as above applied to the side quests
 
 sideQuestModule.dropdownside();
@@ -50,5 +50,3 @@ document.getElementById("mainb").addEventListener('click',()=>{
   clearcomp.removeEventListener('click',sideQuestModule.clearcompl);
   clearbutton.removeEventListener('click',sideQuestModule.cleararray);
    displayQuests.display()})
-
-   

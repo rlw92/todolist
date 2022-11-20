@@ -51,7 +51,7 @@ else if(t.target.dataset.deadline === ""){
   else{undobtn.style.display = "none";}
   undobtn.addEventListener('click', undo);
 
-  
+
 }
 //closes module
 const closeModule = () =>{
@@ -101,14 +101,16 @@ const editModule = (t) =>{
   //change name
   let inputtn = document.createElement("input");
   document.getElementById("taskName").textContent = "";
-  inputtn.placeholder =t.target.dataset.taskName
+  inputtn.placeholder =t.target.dataset.taskName;
+  inputtn.value = t.target.dataset.taskName;
   inputtn.setAttribute("id","changeName");
   document.getElementById("taskName").appendChild(inputtn);
- 
+
   //change task description
   let inputtd = document.createElement("textarea");
   document.getElementById("taskDescription").textContent = "";
   inputtd.placeholder = t.target.dataset.description;
+  inputtd.value = t.target.dataset.description;
   inputtd.setAttribute("id","changeDescription");
   document.getElementById("taskDescription").appendChild(inputtd);
 
@@ -117,7 +119,7 @@ const editModule = (t) =>{
   document.getElementById("taskDeadline").textContent = "";
   inputtddead.placeholder = t.target.dataset.deadline;
   inputtddead.type = "date";
-  //inputtddead.value = 
+  //inputtddead.value =
   inputtddead.setAttribute("id","changeDeadline");
   document.getElementById("taskDeadline").appendChild(inputtddead);
 
@@ -135,7 +137,7 @@ const editModule = (t) =>{
   saveBtn.addEventListener('click',modalModule.saveEdit)
   cnclBtn.addEventListener('click', modalModule.closeModule)
 
-  
+
 
 }
 
@@ -151,7 +153,6 @@ if(chanName.value === ""){chanName.value = quests[tt].title}
 quests[tt].title = chanName.value;
 //set or change description
 let chanDes = document.getElementById("changeDescription");
-if(chanDes.value === ""){chanDes.value = quests[tt].description}
 quests[tt].description = chanDes.value;
 //set or change deadline
 let chanDead = document.getElementById("changeDeadline");
@@ -217,26 +218,26 @@ let sidequests = JSON.parse(localStorage.getItem("sidequesttaskarray") || "[]");
 
 const displayQuests =(()=> {
 
-    const display = () => {  
+    const display = () => {
       add.addEventListener('click',displayQuests.addQuests)
-    
-      
+
+
       clearbutton.addEventListener('click',displayQuests.cleararray)
-    
+
       clearcomp.addEventListener('click',displayQuests.clearcompl)
-    
-    
+
+
       document.querySelector("#header").textContent = "Main Quest"
       rmvsq.style.display = "none";
         actdiv.textContent= "";
       compldiv.textContent="";
       for(let i=0;i<quests.length;i++){
        let div = document.createElement("div");
-    
+
        let label = document.createElement("label")
        label.textContent = quests[i].title;
        label.setAttribute("id","label"+i)
-       
+
        //adding modal functionality below
        label.dataset.taskName = quests[i].title;
        label.dataset.description = quests[i].description;
@@ -244,18 +245,18 @@ const displayQuests =(()=> {
        label.dataset.deadline = quests[i].deadline;
        label.dataset.array = 1;
        label.dataset.taskno = i;
-    
-       
+
+
        let color =  time(quests[i].deadline)
        label.style.color = color;
-    
-       
+
+
        label.addEventListener('mouseover',()=>{label.style = "color:"+color+";border-bottom:2px solid black;cursor:pointer"});
        label.addEventListener('mouseleave',()=>{label.style = "color:"+color+";border-bottom:none"});
        label.addEventListener('click', modalModule.showModule);
-    
+
        div.appendChild(label);
-          
+
       if(quests[i].done === false){
        let input = document.createElement("div");
        let button = document.createElement("span");
@@ -270,7 +271,7 @@ const displayQuests =(()=> {
        else if(quests[i].done===true){compldiv.appendChild(div);}
       }
     }
-    
+
     //changes task to done and updates local storage
     const check = (t) => {
       let tt = t.target.value;
@@ -279,10 +280,12 @@ const displayQuests =(()=> {
       t.target.style.backgroundColor = "green";
       displayQuests.display();
     }
-    
+
     //adding quests into  array using factory function
     const addQuests = () =>{
-      let c = prompt("Enter your quest young knight!");
+      let c = prompt("Enter the title of your quest young knight!");
+      if(c===""){alert("A quest must have a name!")}
+      else{
       let title = c;
       let done = false;
       let description = "";
@@ -291,10 +294,11 @@ const displayQuests =(()=> {
       quests.push(q);
       localStorage.setItem("taskarray", JSON.stringify(quests));
       displayQuests.display();
-      
     }
-    
-    
+
+    }
+
+
     //clears the tasks without using the dreaded local storage clear
     function cleararray(){
       actdiv.textContent= "";
@@ -302,7 +306,7 @@ const displayQuests =(()=> {
       quests = [];
       localStorage.setItem("taskarray", JSON.stringify(quests));
     }
-    
+
     function clearcompl(){
       let donearr = [];
       for(let i=0;i<quests.length;i++){
@@ -316,11 +320,11 @@ const displayQuests =(()=> {
       localStorage.setItem("taskarray", JSON.stringify(quests));
     displayQuests.display();
     }
-    
-    
+
+
       return{display,check,addQuests,cleararray,clearcompl}
-    
+
     })();
 
-    
+
     export{displayQuests};

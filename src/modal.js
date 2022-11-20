@@ -53,15 +53,15 @@ const modalModule = (() => {
     }
     else{undobtn.style.display = "none";}
     undobtn.addEventListener('click', undo);
-  
-    
+
+
   }
   //closes module
   const closeModule = () =>{
      let modal = document.getElementById("myModal");
      modal.style.display = "none";
   }
-  
+
   //removes task
   const rmvtask = (t) => {
     let tt = t.target.dataset.taskno;
@@ -77,9 +77,9 @@ const modalModule = (() => {
   sideQuestModule.display(t);
   modalModule.closeModule();
   }
-  
+
   }
-  
+
   //puts completed task back into active tasks
   const undo = (t) => {
     let tt = t.target.dataset.taskno;
@@ -95,39 +95,39 @@ const modalModule = (() => {
   sideQuestModule.display(t);
   modalModule.closeModule();
   }
-  
-  
+
+
   }
-  
+
   //edits the task
   const editModule = (t) =>{
     //change name
     let inputtn = document.createElement("input");
     document.getElementById("taskName").textContent = "";
-    inputtn.placeholder =t.target.dataset.taskName
+    inputtn.placeholder =t.target.dataset.taskName;
     inputtn.setAttribute("id","changeName");
     document.getElementById("taskName").appendChild(inputtn);
-   
+
     //change task description
     let inputtd = document.createElement("textarea");
     document.getElementById("taskDescription").textContent = "";
     inputtd.placeholder = t.target.dataset.description;
     inputtd.setAttribute("id","changeDescription");
     document.getElementById("taskDescription").appendChild(inputtd);
-  
+
      //set deadline
     let inputtddead = document.createElement("input");
     document.getElementById("taskDeadline").textContent = "";
     inputtddead.placeholder = t.target.dataset.deadline;
     inputtddead.type = "date";
-    //inputtddead.value = 
+    //inputtddead.value =
     inputtddead.setAttribute("id","changeDeadline");
     document.getElementById("taskDeadline").appendChild(inputtddead);
-  
+
     //hide edit and delete buttons show save and cancel
     document.querySelector(".btns").style.display = "none";
     document.querySelector(".hiddenbtns").style.display = "block";
-  
+
     let saveBtn = document.getElementById("savebtn");
     saveBtn.dataset.taskno = t.target.dataset.taskno;
     saveBtn.dataset.projectno = t.target.dataset.projectno;
@@ -137,15 +137,15 @@ const modalModule = (() => {
     let cnclBtn = document.getElementById("cancelbtn");
     saveBtn.addEventListener('click',modalModule.saveEdit)
     cnclBtn.addEventListener('click', modalModule.closeModule)
-  
-    
-  
+
+
+
   }
-  
+
   const saveEdit = (t) => {
   console.log(t.target.dataset.array);
   console.log(t.target.dataset.deadline);
-  
+
   if(t.target.dataset.array === "1"){
   let tt = t.target.dataset.taskno;
   //change name
@@ -184,9 +184,9 @@ const modalModule = (() => {
   sideQuestModule.display(t);
   modalModule.closeModule();
   }
-  
+
   }
-  
+
   return {showModule,closeModule,editModule,saveEdit,rmvtask,undo}
   })();
 
